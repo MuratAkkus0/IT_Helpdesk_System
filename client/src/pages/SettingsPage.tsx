@@ -5,9 +5,9 @@ const SettingsPage: React.FC = () => {
     <div className="space-y-6">
       <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
         <h3 className="text-lg font-semibold text-white mb-4">
-          Sistem Ayarları
+          System Settings
         </h3>
-        <p className="text-gray-400">Bu bölüm yakında aktif olacak...</p>
+        <p className="text-gray-400">This section will be available soon...</p>
       </div>
     </div>
   );

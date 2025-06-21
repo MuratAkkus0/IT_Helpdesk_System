@@ -1,62 +1,62 @@
 # Component Architecture - Atomic Design
 
-Bu proje Atomic Design metodolojisi kullanılarak organize edilmiştir. Bu yaklaşım, UI componentlerini hiyerarşik bir yapıda organize ederek daha sürdürülebilir ve ölçeklenebilir bir kod tabanı sağlar.
+This project is organized using the Atomic Design methodology. This approach provides a more sustainable and scalable codebase by organizing UI components in a hierarchical structure.
 
-## Dizin Yapısı
+## Directory Structure
 
 ```
 components/
-├── atoms/           # Temel UI elementleri
-├── molecules/       # Atomların kombinasyonları
-├── organisms/       # Karmaşık UI bileşenleri
-├── templates/       # Sayfa şablonları
-└── index.js        # Merkezi export dosyası
+├── atoms/           # Basic UI elements
+├── molecules/       # Combinations of atoms
+├── organisms/       # Complex UI components
+├── templates/       # Page templates
+└── index.js        # Central export file
 ```
 
-## Atomic Design Seviyeler
+## Atomic Design Levels
 
-### 🔸 Atoms (Atomlar)
+### 🔸 Atoms
 
-Temel, bölünemeyen UI elementleri. Bunlar projenin en küçük yapı taşlarıdır.
+Basic, indivisible UI elements. These are the smallest building blocks of the project.
 
-- **Button.jsx** - Tüm buton varyantları
-- **Input.jsx** - Form input elementleri
-- **Select.jsx** - Dropdown seçim elementleri
-- **Badge.jsx** - Durum ve etiket gösterimi
+- **Button.jsx** - All button variants
+- **Input.jsx** - Form input elements
+- **Select.jsx** - Dropdown selection elements
+- **Badge.jsx** - Status and label display
 
-### 🔹 Molecules (Moleküller)
+### 🔹 Molecules
 
-Atomların anlamlı kombinasyonları. Belirli bir işlevi yerine getiren küçük bileşenler.
+Meaningful combinations of atoms. Small components that perform a specific function.
 
-- **SearchBar.jsx** - Arama input'u ve ikonu
-- **FilterGroup.jsx** - Filtreleme kontrolleri
+- **SearchBar.jsx** - Search input and icon
+- **FilterGroup.jsx** - Filtering controls
 
-### 🔷 Organisms (Organizmalar)
+### 🔷 Organisms
 
-Moleküller ve atomlardan oluşan karmaşık UI bileşenleri. Sayfanın belirli bölümlerini temsil eder.
+Complex UI components composed of molecules and atoms. They represent specific sections of the page.
 
-- **Header.jsx** - Üst navigasyon çubuğu
-- **Sidebar.jsx** - Yan navigasyon menüsü
-- **Dashboard.jsx** - Ana dashboard bileşeni
-- **TicketForm.jsx** - Ticket oluşturma formu
-- **TicketList.jsx** - Ticket listesi ve yönetimi
+- **Header.jsx** - Top navigation bar
+- **Sidebar.jsx** - Side navigation menu
+- **Dashboard.jsx** - Main dashboard component
+- **TicketForm.jsx** - Ticket creation form
+- **TicketList.jsx** - Ticket list and management
 
-### 🔶 Templates (Şablonlar)
+### 🔶 Templates
 
-Organizmaları bir araya getiren sayfa şablonları. İçerik bağımsız layout yapıları.
+Page templates that bring organisms together. Content-independent layout structures.
 
-- **Layout.jsx** - Ana sayfa şablonu (MainLayout)
+- **Layout.jsx** - Main page template (MainLayout)
 
-## Kullanım
+## Usage
 
-### Tek Tek Import
+### Individual Import
 
 ```javascript
 import Button from "./components/atoms/Button.jsx";
 import Header from "./components/organisms/Header.jsx";
 ```
 
-### Merkezi Import
+### Central Import
 
 ```javascript
 import { Button, Header, Dashboard } from "./components";
@@ -64,30 +64,30 @@ import { Button, Header, Dashboard } from "./components";
 
 ## Best Practices
 
-### 1. **Tek Sorumluluk İlkesi**
+### 1. **Single Responsibility Principle**
 
-Her component yalnızca bir işlevden sorumlu olmalıdır.
+Each component should be responsible for only one function.
 
-### 2. **Props ile Yapılandırma**
+### 2. **Configuration via Props**
 
-Componentler props aracılığıyla yapılandırılabilir olmalıdır.
+Components should be configurable through props.
 
 ### 3. **Consistent Naming**
 
-- Dosya adları PascalCase (TicketForm.jsx)
-- Component adları PascalCase (TicketForm)
-- Props adları camelCase (onClick, isVisible)
+- File names PascalCase (TicketForm.jsx)
+- Component names PascalCase (TicketForm)
+- Props names camelCase (onClick, isVisible)
 
 ### 4. **Reusability**
 
-Alt seviye componentler (atoms, molecules) mümkün olduğunca yeniden kullanılabilir olmalıdır.
+Lower level components (atoms, molecules) should be reusable whenever possible.
 
 ## Component Props Patterns
 
 ### Atoms
 
 ```javascript
-// Button örneği
+// Button example
 <Button
   variant="primary"
   size="md"
@@ -95,14 +95,14 @@ Alt seviye componentler (atoms, molecules) mümkün olduğunca yeniden kullanıl
   loading={false}
   onClick={handleClick}
 >
-  Tıkla
+  Click
 </Button>
 ```
 
 ### Organisms
 
 ```javascript
-// Header örneği
+// Header example
 <Header
   title="Dashboard"
   searchQuery={query}
@@ -114,17 +114,17 @@ Alt seviye componentler (atoms, molecules) mümkün olduğunca yeniden kullanıl
 
 ## Styling
 
-- **Tailwind CSS** kullanılmaktadır
+- **Tailwind CSS** is used
 - Consistent color palette (gray-800, blue-600, etc.)
 - Responsive design first approach
-- Dark theme odaklı tasarım
+- Dark theme focused design
 
 ## Type Safety
 
-Gelecekte TypeScript entegrasyonu için:
+For future TypeScript integration:
 
-- Props interfaces tanımlanacak
-- Generic componentler için type parametreleri
+- Props interfaces will be defined
+- Type parameters for generic components
 - Strict typing for API responses
 
-Bu yapı sayesinde kodunuz daha modüler, test edilebilir ve sürdürülebilir hale gelmiştir.
+Thanks to this structure, your code becomes more modular, testable and maintainable.

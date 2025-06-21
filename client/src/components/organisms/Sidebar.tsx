@@ -24,17 +24,17 @@ const Sidebar = ({
     {
       path: "/tickets",
       icon: FiTrello,
-      label: "Ticket'lar",
+      label: "Tickets",
     },
     {
       path: "/create-ticket",
       icon: FiPlus,
-      label: "Yeni Ticket",
+      label: "New Ticket",
     },
     {
       path: "/settings",
       icon: FiSettings,
-      label: "Ayarlar",
+      label: "Settings",
     },
   ];
 
@@ -91,8 +91,8 @@ const Sidebar = ({
             <FiUser className="text-white w-5 h-5" />
           </div>
           <div className="ml-3">
-            <p className="text-sm font-medium text-white">Admin Kullanıcı</p>
-            <p className="text-xs text-gray-400">Yönetici</p>
+            <p className="text-sm font-medium text-white">Admin User</p>
+            <p className="text-xs text-gray-400">Administrator</p>
           </div>
         </div>
       </div>

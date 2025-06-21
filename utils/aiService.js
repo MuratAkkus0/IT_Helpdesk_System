@@ -12,37 +12,40 @@ const systemPrompt = fs.readFileSync(
   "utf8"
 );
 
-export const getAIPriority = async (ticketText) => {
+// Get AI Priority from Ollama
+const getAIPriority = async (ticketText) => {
   try {
-    const response = await fetch("http://localhost:11434/api/generate", {
+    const OLLAMA_URL = process.env.OLLAMA_URL || "http://localhost:11434";
+    const response = await fetch(`${OLLAMA_URL}/api/generate`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({
         model: "llama3",
         system: systemPrompt,
-        prompt: `Destek talebi: "${ticketText}"`,
+        prompt: `Support request: "${ticketText}"`,
         stream: false,
       }),
     });
+
     if (!response.ok) {
-      throw new Error(`Ollama API error: ${response.status}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    const aiPriority = parseInt(data.response.trim());
+    const priority = parseInt(data.response.trim());
 
-    // Validate the response is a number between 1-5
-    if (isNaN(aiPriority) || aiPriority < 1 || aiPriority > 5) {
-      console.warn(
-        `Invalid AI priority response: ${data.response}, defaulting to 3`
-      );
+    // Validation
+    if (isNaN(priority) || priority < 1 || priority > 5) {
+      console.warn("Invalid AI priority response, defaulting to 3");
       return 3;
     }
 
-    return aiPriority;
+    return priority;
   } catch (error) {
     console.error("AI Priority analysis failed:", error);
-    // Return default priority if AI service is unavailable
+    // Default to medium priority if AI fails
     return 3;
   }
 };

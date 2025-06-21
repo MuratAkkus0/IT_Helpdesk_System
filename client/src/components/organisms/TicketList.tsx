@@ -40,7 +40,7 @@ const TicketList = ({
     {
       _id: "1",
       customer_name: "Ahmet Yılmaz",
-      issue_description: "Sunucu Hatası - Bağlantı Sorunu",
+      issue_description: "Server Error - Connection Issue",
       status: "open",
       ai_priority: 4,
       priority: 4,
@@ -54,7 +54,7 @@ const TicketList = ({
     {
       _id: "2",
       customer_name: "Mehmet Kaya",
-      issue_description: "Ödeme Sistemi Güncellemesi",
+      issue_description: "Payment System Update",
       status: "in_progress",
       ai_priority: 3,
       priority: 3,
@@ -68,7 +68,7 @@ const TicketList = ({
     {
       _id: "3",
       customer_name: "Ayşe Türk",
-      issue_description: "Kullanıcı Kayıt Formu Hatası",
+      issue_description: "User Registration Form Error",
       status: "pending",
       ai_priority: 2,
       priority: 2,
@@ -82,7 +82,7 @@ const TicketList = ({
     {
       _id: "4",
       customer_name: "Ali Veli",
-      issue_description: "Veritabanı Yedekleme Sorunu",
+      issue_description: "Database Backup Issue",
       status: "resolved",
       ai_priority: 3,
       priority: 3,
@@ -96,7 +96,7 @@ const TicketList = ({
     {
       _id: "5",
       customer_name: "Zeynep Mavi",
-      issue_description: "Arayüz İyileştirmeleri",
+      issue_description: "UI Improvements",
       status: "open",
       ai_priority: 5,
       priority: 5,
@@ -173,37 +173,37 @@ const TicketList = ({
 
   const getPriorityBadgeProps = (priority: number) => {
     const priorityMap = {
-      5: { variant: "danger" as const, label: "Kritik" },
-      4: { variant: "warning" as const, label: "Yüksek" },
-      3: { variant: "info" as const, label: "Orta" },
-      2: { variant: "primary" as const, label: "Düşük" },
-      1: { variant: "success" as const, label: "Çok Düşük" },
+      5: { variant: "danger" as const, label: "Critical" },
+      4: { variant: "warning" as const, label: "High" },
+      3: { variant: "info" as const, label: "Medium" },
+      2: { variant: "primary" as const, label: "Low" },
+      1: { variant: "success" as const, label: "Very Low" },
     };
     return (
       priorityMap[priority as keyof typeof priorityMap] || {
         variant: "secondary" as const,
-        label: "Belirsiz",
+        label: "Unknown",
       }
     );
   };
 
   const getStatusBadgeProps = (status: string) => {
     const statusMap = {
-      open: { variant: "primary" as const, label: "Açık" },
-      in_progress: { variant: "warning" as const, label: "Devam Ediyor" },
-      pending: { variant: "info" as const, label: "Beklemede" },
-      resolved: { variant: "success" as const, label: "Çözüldü" },
+      open: { variant: "primary" as const, label: "Open" },
+      in_progress: { variant: "warning" as const, label: "In Progress" },
+      pending: { variant: "info" as const, label: "Pending" },
+      resolved: { variant: "success" as const, label: "Resolved" },
     };
     return (
       statusMap[status as keyof typeof statusMap] || {
         variant: "secondary" as const,
-        label: "Belirsiz",
+        label: "Unknown",
       }
     );
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("tr-TR");
+    return new Date(dateString).toLocaleDateString("en-US");
   };
 
   const clearFilters = () => {
@@ -215,47 +215,47 @@ const TicketList = ({
   };
 
   const statusTabs = [
-    { id: "all", label: "Tümü", count: tickets.length },
+    { id: "all", label: "All", count: tickets.length },
     {
       id: "open",
-      label: "Açık",
+      label: "Open",
       count: tickets.filter((t) => t.status === "open").length,
     },
     {
       id: "in_progress",
-      label: "Devam Ediyor",
+      label: "In Progress",
       count: tickets.filter((t) => t.status === "in_progress").length,
     },
     {
       id: "pending",
-      label: "Beklemede",
+      label: "Pending",
       count: tickets.filter((t) => t.status === "pending").length,
     },
     {
       id: "resolved",
-      label: "Çözüldü",
+      label: "Resolved",
       count: tickets.filter((t) => t.status === "resolved").length,
     },
   ];
 
   const filterOptions = {
     priority: [
-      { value: "all", label: "Tüm Öncelikler" },
-      { value: "5", label: "Kritik" },
-      { value: "4", label: "Yüksek" },
-      { value: "3", label: "Orta" },
-      { value: "2", label: "Düşük" },
-      { value: "1", label: "Çok Düşük" },
+      { value: "all", label: "All Priorities" },
+      { value: "5", label: "Critical" },
+      { value: "4", label: "High" },
+      { value: "3", label: "Medium" },
+      { value: "2", label: "Low" },
+      { value: "1", label: "Very Low" },
     ],
     sla: [
-      { value: "all", label: "Tüm SLA Seviyeler" },
+      { value: "all", label: "All SLA Levels" },
       { value: "Gold", label: "Gold" },
       { value: "Silver", label: "Silver" },
       { value: "Bronze", label: "Bronze" },
-      { value: "None", label: "Yok" },
+      { value: "None", label: "None" },
     ],
     level: [
-      { value: "all", label: "Tüm Seviyeler" },
+      { value: "all", label: "All Levels" },
       { value: "L1", label: "L1" },
       { value: "L2", label: "L2" },
     ],
@@ -275,17 +275,17 @@ const TicketList = ({
       <div className="p-6 border-b border-gray-700">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h2 className="text-xl font-bold text-white mb-2">
-              Ticket Listesi
+            <h2 className="text-xl font-semibold text-white mb-2">
+              Ticket List
             </h2>
-            <p className="text-gray-400">Sistemdeki tüm destek talepleri</p>
+            <p className="text-gray-400">All support tickets in the system</p>
           </div>
 
           <div className="flex items-center gap-3">
             <SearchBar
               value={searchTerm}
               onChange={setSearchTerm}
-              placeholder="Bilet ara (müşteri adı, açıklama, ID)..."
+              placeholder="Search tickets (customer name, description, ID)..."
             />
 
             <Button
@@ -294,7 +294,7 @@ const TicketList = ({
               className="flex items-center"
             >
               <FiFilter className="mr-2" />
-              Filtreler
+              Filters
             </Button>
 
             <Button
@@ -303,7 +303,7 @@ const TicketList = ({
               className="flex items-center"
             >
               <FiRefreshCw className="mr-2" />
-              Yenile
+              Refresh
             </Button>
           </div>
         </div>
@@ -332,7 +332,7 @@ const TicketList = ({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Öncelik
+                  Priority
                 </label>
                 <Select
                   value={priorityFilter}
@@ -343,7 +343,7 @@ const TicketList = ({
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  SLA Seviyesi
+                  SLA Level
                 </label>
                 <Select
                   value={slaFilter}
@@ -354,7 +354,7 @@ const TicketList = ({
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Atanmış Seviye
+                  Assigned Level
                 </label>
                 <Select
                   value={levelFilter}
@@ -366,7 +366,7 @@ const TicketList = ({
 
             <div className="mt-4 flex justify-end">
               <Button variant="secondary" onClick={clearFilters}>
-                Filtreleri Temizle
+                Clear Filters
               </Button>
             </div>
           </div>
@@ -397,7 +397,7 @@ const TicketList = ({
                   onClick={() => handleSort("customer_name")}
                   className="flex items-center hover:text-white"
                 >
-                  Müşteri
+                  Customer
                   {sortField === "customer_name" &&
                     (sortDirection === "asc" ? (
                       <FiArrowUp className="ml-1" />
@@ -407,13 +407,13 @@ const TicketList = ({
                 </button>
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                Problem
+                Issue
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                Durum
+                Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                Öncelik
+                Priority
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 SLA
@@ -423,7 +423,7 @@ const TicketList = ({
                   onClick={() => handleSort("created_at")}
                   className="flex items-center hover:text-white"
                 >
-                  Tarih
+                  Date
                   {sortField === "created_at" &&
                     (sortDirection === "asc" ? (
                       <FiArrowUp className="ml-1" />
@@ -433,7 +433,7 @@ const TicketList = ({
                 </button>
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                İşlemler
+                Actions
               </th>
             </tr>
           </thead>
@@ -530,10 +530,10 @@ const TicketList = ({
         <div className="text-center py-12">
           <FiAlertCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
           <h3 className="text-lg font-medium text-white mb-2">
-            Ticket bulunamadı
+            No tickets found
           </h3>
           <p className="text-gray-400">
-            Arama kriterlerinizi değiştirin veya yeni ticket oluşturun.
+            Change your search criteria or create a new ticket.
           </p>
         </div>
       )}

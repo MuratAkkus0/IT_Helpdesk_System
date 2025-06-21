@@ -54,19 +54,19 @@ const TicketDetailPage: React.FC = () => {
       // Mock data fallback for demo
       const mockTicket: TicketDetail = {
         _id: id!,
-        title: "Sunucu Hatası",
+        title: "Server Error",
         description:
-          "Sunucu Hatası - Bağlantı Sorunu. Kullanıcılar web sitesine erişim sağlayamıyor.",
+          "Server Error - Connection Issue. Users cannot access the website.",
         priority: 4,
         status: "open",
         category: "Technical",
-        requester: "Ahmet Yılmaz",
+        requester: "Ahmet Yilmaz",
         createdAt: new Date("2023-05-15T10:30:00Z"),
         updatedAt: new Date("2023-05-15T10:30:00Z"),
         created_at: "2023-05-15T10:30:00Z",
-        customer_name: "Ahmet Yılmaz",
+        customer_name: "Ahmet Yilmaz",
         issue_description:
-          "Sunucu Hatası - Bağlantı Sorunu. Kullanıcılar web sitesine erişim sağlayamıyor. Hata mesajı: 'Connection timeout'. Sorun sabah 09:00'da başlamış ve halen devam ediyor.",
+          "Server Error - Connection Issue. Users cannot access the website. Error message: 'Connection timeout'. The issue started at 09:00 AM and is still ongoing.",
         ai_priority: 4,
         sla_level: "Gold",
         ticket_source: "email",
@@ -93,7 +93,7 @@ const TicketDetailPage: React.FC = () => {
       const result = await aiAPI.analyze(
         ticket.issue_description || ticket.description || ""
       );
-      const newPriority = result.urgency;
+      const newPriority = result;
       setPriority(newPriority);
 
       // Auto-update assigned level based on new priority
@@ -148,7 +148,7 @@ const TicketDetailPage: React.FC = () => {
       setNotes("");
     } catch (error) {
       console.error("Failed to update ticket:", error);
-      alert("Ticket güncellenirken bir hata oluştu.");
+      alert("An error occurred while updating the ticket.");
     } finally {
       setUpdating(false);
     }
@@ -172,13 +172,13 @@ const TicketDetailPage: React.FC = () => {
   const getStatusText = (status: string): string => {
     switch (status) {
       case "open":
-        return "Açık";
+        return "Open";
       case "in_progress":
-        return "Devam Ediyor";
+        return "In Progress";
       case "pending":
-        return "Beklemede";
+        return "Pending";
       case "resolved":
-        return "Çözüldü";
+        return "Resolved";
       default:
         return status;
     }
@@ -202,24 +202,24 @@ const TicketDetailPage: React.FC = () => {
   const getPriorityText = (priority: number): string => {
     switch (priority) {
       case 5:
-        return "Kritik";
+        return "Critical";
       case 4:
-        return "Yüksek";
+        return "High";
       case 3:
-        return "Orta";
+        return "Medium";
       case 2:
-        return "Düşük";
+        return "Low";
       case 1:
-        return "Çok Düşük";
+        return "Very Low";
       default:
-        return "Belirsiz";
+        return "Unknown";
     }
   };
 
   const formatDate = (dateString: string): string => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleString("tr-TR", {
+      return date.toLocaleString("en-US", {
         year: "numeric",
         month: "2-digit",
         day: "2-digit",
@@ -227,7 +227,7 @@ const TicketDetailPage: React.FC = () => {
         minute: "2-digit",
       });
     } catch {
-      return "Geçersiz tarih";
+      return "Invalid date";
     }
   };
 
@@ -243,12 +243,12 @@ const TicketDetailPage: React.FC = () => {
     return (
       <div className="flex flex-col justify-center items-center h-64">
         <FiAlertCircle className="w-12 h-12 text-red-400 mb-4" />
-        <p className="text-gray-400 text-lg mb-4">Ticket bulunamadı</p>
+        <p className="text-gray-400 text-lg mb-4">Ticket not found</p>
         <button
           onClick={() => navigate("/tickets")}
           className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white"
         >
-          Ticket Listesine Dön
+          Back to Tickets
         </button>
       </div>
     );
@@ -286,7 +286,7 @@ const TicketDetailPage: React.FC = () => {
             ) : (
               <FiZap className="w-4 h-4 mr-2" />
             )}
-            AI Yeniden Analiz
+            AI Re-analyze
           </button>
 
           <button
@@ -294,7 +294,7 @@ const TicketDetailPage: React.FC = () => {
             className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white transition-colors"
           >
             <FiEdit3 className="w-4 h-4 mr-2" />
-            {isEditing ? "İptal" : "Düzenle"}
+            {isEditing ? "Cancel" : "Edit"}
           </button>
         </div>
       </div>
@@ -305,7 +305,7 @@ const TicketDetailPage: React.FC = () => {
           {/* Issue Description */}
           <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
             <h3 className="text-lg font-semibold text-white mb-4">
-              Sorun Açıklaması
+              Issue Description
             </h3>
             <p className="text-gray-300 leading-relaxed">
               {ticket.issue_description || ticket.description}
@@ -316,28 +316,28 @@ const TicketDetailPage: React.FC = () => {
           {isEditing && (
             <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
               <h3 className="text-lg font-semibold text-white mb-4">
-                Ticket'ı Güncelle
+                Update Ticket
               </h3>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Durum
+                    Status
                   </label>
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                     className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    <option value="open">Açık</option>
-                    <option value="in_progress">Devam Ediyor</option>
-                    <option value="pending">Beklemede</option>
-                    <option value="resolved">Çözüldü</option>
+                    <option value="open">Open</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="pending">Pending</option>
+                    <option value="resolved">Resolved</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Atanmış Seviye
+                    Assigned Level
                   </label>
                   <select
                     value={assignedLevel}
@@ -352,29 +352,29 @@ const TicketDetailPage: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Öncelik
+                    Priority
                   </label>
                   <select
                     value={priority}
                     onChange={(e) => setPriority(Number(e.target.value))}
                     className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    <option value={1}>1 - Çok Düşük</option>
-                    <option value={2}>2 - Düşük</option>
-                    <option value={3}>3 - Orta</option>
-                    <option value={4}>4 - Yüksek</option>
-                    <option value={5}>5 - Kritik</option>
+                    <option value={1}>1 - Very Low</option>
+                    <option value={2}>2 - Low</option>
+                    <option value={3}>3 - Medium</option>
+                    <option value={4}>4 - High</option>
+                    <option value={5}>5 - Critical</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Notlar
+                    Notes
                   </label>
                   <textarea
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
-                    placeholder="Güncelleme notları..."
+                    placeholder="Update notes..."
                     rows={3}
                     className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -390,7 +390,7 @@ const TicketDetailPage: React.FC = () => {
                   ) : (
                     <FiSave className="w-4 h-4 mr-2" />
                   )}
-                  Kaydet
+                  Save
                 </button>
               </div>
             </div>
@@ -402,11 +402,11 @@ const TicketDetailPage: React.FC = () => {
           {/* Ticket Info */}
           <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
             <h3 className="text-lg font-semibold text-white mb-4">
-              Ticket Bilgileri
+              Ticket Information
             </h3>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-gray-400">Durum:</span>
+                <span className="text-gray-400">Status:</span>
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
                     status
@@ -416,13 +416,13 @@ const TicketDetailPage: React.FC = () => {
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-400">Öncelik:</span>
+                <span className="text-gray-400">Priority:</span>
                 <span className={`font-medium ${getPriorityColor(priority)}`}>
                   {getPriorityText(priority)}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-400">Seviye:</span>
+                <span className="text-gray-400">Level:</span>
                 <span className="text-white font-medium">{assignedLevel}</span>
               </div>
               <div className="flex items-center justify-between">
@@ -437,7 +437,7 @@ const TicketDetailPage: React.FC = () => {
           {/* Customer Info */}
           <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
             <h3 className="text-lg font-semibold text-white mb-4">
-              Müşteri Bilgileri
+              Customer Information
             </h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
@@ -463,14 +463,12 @@ const TicketDetailPage: React.FC = () => {
 
           {/* Timeline */}
           <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-            <h3 className="text-lg font-semibold text-white mb-4">
-              Zaman Çizelgesi
-            </h3>
+            <h3 className="text-lg font-semibold text-white mb-4">Timeline</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <FiClock className="w-4 h-4 text-gray-400" />
                 <div>
-                  <p className="text-gray-300 text-sm">Oluşturulma</p>
+                  <p className="text-gray-300 text-sm">Created</p>
                   <p className="text-gray-400 text-xs">
                     {formatDate(ticket.createdAt.toString())}
                   </p>
@@ -479,7 +477,7 @@ const TicketDetailPage: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <FiRefreshCw className="w-4 h-4 text-gray-400" />
                 <div>
-                  <p className="text-gray-300 text-sm">Son Güncelleme</p>
+                  <p className="text-gray-300 text-sm">Last Updated</p>
                   <p className="text-gray-400 text-xs">
                     {formatDate(
                       ticket.last_updated || ticket.updatedAt.toString()

@@ -19,11 +19,11 @@ const TicketSystemDashboard = () => {
   const [activeTab, setActiveTab] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Örnek ticket verileri
+  // Example ticket data
   const tickets = [
     {
       id: 1,
-      title: "Sunucu Hatası",
+      title: "Server Error",
       status: "open",
       priority: "high",
       assigned: "Ahmet Y.",
@@ -31,7 +31,7 @@ const TicketSystemDashboard = () => {
     },
     {
       id: 2,
-      title: "Ödeme Sistemi Güncellemesi",
+      title: "Payment System Update",
       status: "in-progress",
       priority: "medium",
       assigned: "Mehmet K.",
@@ -39,7 +39,7 @@ const TicketSystemDashboard = () => {
     },
     {
       id: 3,
-      title: "Kullanıcı Kayıt Formu Hatası",
+      title: "User Registration Form Error",
       status: "pending",
       priority: "low",
       assigned: "Ayşe T.",
@@ -47,7 +47,7 @@ const TicketSystemDashboard = () => {
     },
     {
       id: 4,
-      title: "Veritabanı Yedekleme",
+      title: "Database Backup",
       status: "resolved",
       priority: "medium",
       assigned: "Ali V.",
@@ -55,7 +55,7 @@ const TicketSystemDashboard = () => {
     },
     {
       id: 5,
-      title: "Arayüz İyileştirmeleri",
+      title: "UI Improvements",
       status: "open",
       priority: "high",
       assigned: "Zeynep M.",
@@ -128,28 +128,28 @@ const TicketSystemDashboard = () => {
             className="flex items-center p-2 rounded-lg bg-gray-700 text-white"
           >
             <FiHome className="mr-3" />
-            <span>Ana Sayfa</span>
+            <span>Home</span>
           </a>
           <a
             href="#"
             className="flex items-center p-2 rounded-lg hover:bg-gray-700 text-gray-300 hover:text-white"
           >
             <FiTrello className="mr-3" />
-            <span>Ticket'lar</span>
+            <span>Tickets</span>
           </a>
           <a
             href="#"
             className="flex items-center p-2 rounded-lg hover:bg-gray-700 text-gray-300 hover:text-white"
           >
             <FiUsers className="mr-3" />
-            <span>Müşteriler</span>
+            <span>Customers</span>
           </a>
           <a
             href="#"
             className="flex items-center p-2 rounded-lg hover:bg-gray-700 text-gray-300 hover:text-white"
           >
             <FiSettings className="mr-3" />
-            <span>Ayarlar</span>
+            <span>Settings</span>
           </a>
         </nav>
 
@@ -159,8 +159,8 @@ const TicketSystemDashboard = () => {
               <FiUser className="text-white" />
             </div>
             <div className="ml-3">
-              <p className="text-sm font-medium text-white">Admin Kullanıcı</p>
-              <p className="text-xs text-gray-400">Yönetici</p>
+              <p className="text-sm font-medium text-white">Admin User</p>
+              <p className="text-xs text-gray-400">Administrator</p>
             </div>
           </div>
         </div>
@@ -171,7 +171,7 @@ const TicketSystemDashboard = () => {
         {/* Top Navigation */}
         <header className="bg-gray-800 border-b border-gray-700 p-4 flex items-center justify-between">
           <div className="flex items-center">
-            <h2 className="text-xl font-semibold">Ticket Yönetimi</h2>
+            <h2 className="text-xl font-semibold">Ticket Management</h2>
           </div>
 
           <div className="flex items-center space-x-4">
@@ -179,7 +179,7 @@ const TicketSystemDashboard = () => {
               <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
-                placeholder="Ticket ara..."
+                placeholder="Ticket search..."
                 className="pl-10 pr-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -201,15 +201,15 @@ const TicketSystemDashboard = () => {
         <main className="flex-1 overflow-y-auto p-6 bg-gray-900">
           <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-              <h1 className="text-2xl font-bold mb-2">Ticket'lar</h1>
+              <h1 className="text-2xl font-bold mb-2">Tickets</h1>
               <p className="text-gray-400">
-                Sistemdeki tüm ticket'ları görüntüleyebilir ve yönetebilirsiniz
+                You can view and manage all tickets in the system
               </p>
             </div>
 
             <button className="mt-4 md:mt-0 flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium">
               <FiPlus className="mr-2" />
-              Yeni Ticket
+              New Ticket
             </button>
           </div>
 
@@ -224,7 +224,7 @@ const TicketSystemDashboard = () => {
                     : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
-                Tümü
+                All
               </button>
               <button
                 onClick={() => setActiveTab("open")}
@@ -234,7 +234,7 @@ const TicketSystemDashboard = () => {
                     : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
-                Açık
+                Open
               </button>
               <button
                 onClick={() => setActiveTab("in-progress")}
@@ -244,7 +244,7 @@ const TicketSystemDashboard = () => {
                     : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
-                Devam Eden
+                In Progress
               </button>
               <button
                 onClick={() => setActiveTab("pending")}
@@ -254,7 +254,7 @@ const TicketSystemDashboard = () => {
                     : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
-                Beklemede
+                Pending
               </button>
               <button
                 onClick={() => setActiveTab("resolved")}
@@ -264,14 +264,14 @@ const TicketSystemDashboard = () => {
                     : "bg-gray-800 text-gray-300 hover:bg-gray-700"
                 }`}
               >
-                Çözülenler
+                Resolved
               </button>
             </div>
 
             <div className="flex items-center space-x-2">
               <button className="flex items-center px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-300">
                 <FiFilter className="mr-2" />
-                Filtrele
+                Filter
                 <FiChevronDown className="ml-2" />
               </button>
             </div>
@@ -293,37 +293,37 @@ const TicketSystemDashboard = () => {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
                     >
-                      Başlık
+                      Title
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
                     >
-                      Durum
+                      Status
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
                     >
-                      Öncelik
+                      Priority
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
                     >
-                      Atanan
+                      Assigned
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider"
                     >
-                      Tarih
+                      Date
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-right text-xs font-medium text-gray-300 uppercase tracking-wider"
                     >
-                      İşlemler
+                      Actions
                     </th>
                   </tr>
                 </thead>
@@ -343,10 +343,10 @@ const TicketSystemDashboard = () => {
                               ticket.status
                             )}`}
                           >
-                            {ticket.status === "open" && "Açık"}
-                            {ticket.status === "in-progress" && "Devam Ediyor"}
-                            {ticket.status === "pending" && "Beklemede"}
-                            {ticket.status === "resolved" && "Çözüldü"}
+                            {ticket.status === "open" && "Open"}
+                            {ticket.status === "in-progress" && "In Progress"}
+                            {ticket.status === "pending" && "Pending"}
+                            {ticket.status === "resolved" && "Resolved"}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
@@ -356,9 +356,9 @@ const TicketSystemDashboard = () => {
                                 ticket.priority
                               )} mr-2`}
                             ></span>
-                            {ticket.priority === "high" && "Yüksek"}
-                            {ticket.priority === "medium" && "Orta"}
-                            {ticket.priority === "low" && "Düşük"}
+                            {ticket.priority === "high" && "High"}
+                            {ticket.priority === "medium" && "Medium"}
+                            {ticket.priority === "low" && "Low"}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
@@ -369,10 +369,10 @@ const TicketSystemDashboard = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <button className="text-blue-400 hover:text-blue-300 mr-3">
-                            Görüntüle
+                            View
                           </button>
                           <button className="text-gray-400 hover:text-gray-300">
-                            Düzenle
+                            Edit
                           </button>
                         </td>
                       </tr>
@@ -384,8 +384,8 @@ const TicketSystemDashboard = () => {
                         className="px-6 py-4 text-center text-sm text-gray-400"
                       >
                         {searchQuery
-                          ? "Aramanızla eşleşen ticket bulunamadı."
-                          : "Gösterilecek ticket bulunamadı."}
+                          ? "No tickets found matching your search."
+                          : "No tickets to display."}
                       </td>
                     </tr>
                   )}
@@ -397,15 +397,15 @@ const TicketSystemDashboard = () => {
           {/* Pagination */}
           <div className="mt-6 flex items-center justify-between">
             <div className="text-sm text-gray-400">
-              Toplam <span className="font-medium text-white">5</span> ticket
-              gösteriliyor
+              Total <span className="font-medium text-white">5</span> tickets
+              displayed
             </div>
             <div className="flex space-x-2">
               <button
                 className="px-3 py-1 rounded-md bg-gray-800 text-gray-300 hover:bg-gray-700 disabled:opacity-50"
                 disabled
               >
-                Önceki
+                Previous
               </button>
               <button className="px-3 py-1 rounded-md bg-gray-800 text-gray-300 hover:bg-gray-700">
                 1
@@ -417,7 +417,7 @@ const TicketSystemDashboard = () => {
                 3
               </button>
               <button className="px-3 py-1 rounded-md bg-gray-800 text-gray-300 hover:bg-gray-700">
-                Sonraki
+                Next
               </button>
             </div>
           </div>

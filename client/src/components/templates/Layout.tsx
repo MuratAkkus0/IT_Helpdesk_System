@@ -13,20 +13,19 @@ const MainLayout: React.FC = () => {
   const getPageTitle = (): string => {
     const titles: Record<string, string> = {
       "/": "Dashboard",
-      "/tickets": "Ticket Yönetimi",
-      "/create-ticket": "Yeni Ticket",
-      "/settings": "Ayarlar",
+      "/tickets": "Ticket Management",
+      "/create-ticket": "New Ticket",
+      "/settings": "Settings",
     };
     return titles[location.pathname] || "Dashboard";
   };
 
   const getPageDescription = (): string => {
     const descriptions: Record<string, string> = {
-      "/": "Sistemdeki tüm verileri görüntüleyebilir ve analiz edebilirsiniz",
-      "/tickets":
-        "Sistemdeki tüm ticket'ları görüntüleyebilir ve yönetebilirsiniz",
-      "/create-ticket": "Yeni destek talebi oluşturabilirsiniz",
-      "/settings": "Sistem ayarlarını yönetebilirsiniz",
+      "/": "You can view and analyze all data in the system",
+      "/tickets": "You can view and manage all tickets in the system",
+      "/create-ticket": "You can create a new support ticket",
+      "/settings": "You can manage system settings",
     };
     return descriptions[location.pathname] || "";
   };
@@ -63,7 +62,7 @@ const MainLayout: React.FC = () => {
                 className="mt-4 md:mt-0 flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium"
               >
                 <FiPlus className="mr-2" />
-                Yeni Ticket
+                New Ticket
               </button>
             )}
           </div>

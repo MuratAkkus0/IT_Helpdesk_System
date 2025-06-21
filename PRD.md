@@ -1,42 +1,42 @@
 Prompt:
 
-Sen bir full-stack yazılım geliştiricisisin. Aşağıda detayları verilen bir IT destek sistemi projesini gerçekleştireceksin. Bu sistem destek taleplerini SLA (Service Level Agreement) ve AI içerik analizine göre önceliklendirip, uygun seviyedeki destek ekibine (L1 veya L2) yönlendirecek. Proje React frontend, MongoDB backend ve Local Ollama AI ile geliştirilecek.
+You are a full-stack software developer. You will implement an IT support system project with the details given below. This system will prioritize support requests according to SLA (Service Level Agreement) and AI content analysis and direct them to the appropriate level support team (L1 or L2). The project will be developed with React frontend, MongoDB backend and Local Ollama AI.
 
-🧱 Proje Adı:
+🧱 Project Name:
 AI-Powered IT Support Ticket Prioritization System
 
-🔧 Kullanılacak Teknolojiler:
+🔧 Technologies to be Used:
 Frontend: React + TailwindCSS
 
 Backend: Node.js + Express
 
-Veritabanı: MongoDB (mongoose ile)
+Database: MongoDB (with mongoose)
 
 AI: Local Ollama (localhost:11434)
 
-Model: LLaMA3 (veya başka bir metin analiz modeli)
+Model: LLaMA3 (or another text analysis model)
 
-Tool: Cursor AI üzerinde geliştirilecek
+Tool: Will be developed on Cursor AI
 
-✅ Uygulama Özeti:
-Kullanıcı e-posta, telefon veya form ile destek talebi (ticket) oluşturur.
+✅ Application Summary:
+User creates a support request (ticket) via email, phone or form.
 
-Kullanıcının SLA seviyesine göre manuel öncelik puanı atanır (0–4).
+Manual priority score is assigned according to the user's SLA level (0–4).
 
-Ticket içeriği Local Ollama’ya gönderilerek AI içerik analizi ile karmaşıklık seviyesi puanı alınır (1–5).
+Ticket content is sent to Local Ollama and complexity level score is obtained with AI content analysis (1–5).
 
-İki puana göre ticket:
+According to the two scores, the ticket is assigned to:
 
-L1 (basit işler, düşük maliyetli personel)
+L1 (simple tasks, low-cost personnel)
 
-L2 (karmaşık işler, uzman personel)
-ekiplerine atanır.
+L2 (complex tasks, expert personnel)
+teams.
 
-Ticket’ın çözüm yöntemi (telefon, e-posta, portal) belirlenir.
+The ticket's resolution method (phone, email, portal) is determined.
 
-Ticket'ın çözüm durumu güncellenebilir (open → in_progress → resolved).
+The ticket's resolution status can be updated (open → in_progress → resolved).
 
-📦 MongoDB Ticket Modeli (ticket.js)
+📦 MongoDB Ticket Model (ticket.js)
 js
 Copy
 Edit
@@ -46,39 +46,39 @@ const ticketSchema = new mongoose.Schema({
 customer_name: String,
 sla_level: String, // Gold, Silver, Bronze
 issue_description: String,
-issue_type: String, // network, software, access vs.
+issue_type: String, // network, software, access etc.
 ticket_source: String, // email, phone, manual
 created_at: { type: Date, default: Date.now },
 sla_priority: Number, // 0–4
 ai_priority: Number, // 1–5
-assigned_level: String, // L1 veya L2
+assigned_level: String, // L1 or L2
 resolution_method: String, // phone, email, portal
 status: { type: String, default: "open" } // open, in_progress, resolved
 });
 
 module.exports = mongoose.model("Ticket", ticketSchema);
-🧠 Ollama API – System Prompt (AI Karmaşıklık Skoru)
+🧠 Ollama API – System Prompt (AI Complexity Score)
 txt
 Copy
 Edit
-Sen bir IT destek sisteminde çalışan bir yapay zekasın. Görevin, destek taleplerinin metinsel açıklamasına göre bu taleplerin teknik karmaşıklık düzeyini analiz etmektir.
+You are an artificial intelligence working in an IT support system. Your task is to analyze the technical complexity level of support requests based on their textual descriptions.
 
-Lütfen aşağıdaki kurallara kesinlikle uy:
+Please strictly follow the rules below:
 
-1. Karmaşıklığı 1 ile 5 arasında sayısal bir puanla değerlendir:
+1. Evaluate complexity with a numerical score between 1 and 5:
 
-   - 1: Çok basit (örneğin şifre sıfırlama)
-   - 2: Basit (örneğin yazıcı bağlantısı)
-   - 3: Orta seviye (örneğin VPN sorunu)
-   - 4: Karmaşık (örneğin ağ erişimi, domain)
-   - 5: Çok karmaşık (örneğin veri kaybı, sistem çökmesi)
+   - 1: Very simple (e.g. password reset)
+   - 2: Simple (e.g. printer connection)
+   - 3: Medium level (e.g. VPN problem)
+   - 4: Complex (e.g. network access, domain)
+   - 5: Very complex (e.g. data loss, system crash)
 
-2. Sadece sayı cevabı ver. Açıklama veya başka karakter yazma. Örn: `3`
+2. Give only a number answer. Do not write explanations or other characters. E.g: `3`
 
-3. Emin olamadığında `3` puanı ver.
+3. When you are unsure, give a score of `3`.
 
-Yanıtın sadece 1, 2, 3, 4 ya da 5 olmalı. Başka hiçbir şey yazma.
-🔁 Ollama API çağrısı (Backend örneği)
+Your answer should only be 1, 2, 3, 4 or 5. Do not write anything else.
+🔁 Ollama API call (Backend example)
 js
 Copy
 Edit
@@ -89,14 +89,14 @@ headers: { "Content-Type": "application/json" },
 body: JSON.stringify({
 model: "llama3",
 system: systemPromptText,
-prompt: `Destek talebi: "${ticketText}"`,
+prompt: `Support request: "${ticketText}"`,
 stream: false
 })
 });
 const data = await response.json();
 return parseInt(data.response.trim());
 };
-⚙️ SLA Önceliği Hesabı (Backend)
+⚙️ SLA Priority Calculation (Backend)
 js
 Copy
 Edit
@@ -107,45 +107,45 @@ Bronze: 1,
 None: 0
 };
 ticket.sla_priority = slaMap[ticket.sla_level];
-🎯 Destek Seviyesi Yönlendirme (L1 / L2)
+🎯 Support Level Routing (L1 / L2)
 js
 Copy
 Edit
 ticket.assigned_level = ticket.ai_priority >= 4 || ticket.sla_priority >= 3
 ? "L2"
 : "L1";
-🧩 API Uçları (Express)
+🧩 API Endpoints (Express)
 http
 Copy
 Edit
-GET /api/tickets → Tüm ticket’ları getir
-POST /api/tickets → Yeni ticket oluştur
-GET /api/tickets/:id → Belirli ticket’ı getir
-PUT /api/tickets/:id → Ticket güncelle (durum vb.)
-POST /api/analyze → Ollama üzerinden AI analizi al
-🖥️ React Sayfa ve Bileşenler
-TicketForm: Yeni ticket oluşturma
+GET /api/tickets → Get all tickets
+POST /api/tickets → Create new ticket
+GET /api/tickets/:id → Get specific ticket
+PUT /api/tickets/:id → Update ticket (status etc.)
+POST /api/analyze → Get AI analysis via Ollama
+🖥️ React Pages and Components
+TicketForm: Create new ticket
 
-TicketList: Tüm ticket’ların listesi (status, priority vs.)
+TicketList: List of all tickets (status, priority etc.)
 
-TicketDetails: Tek ticket detayları
+TicketDetails: Single ticket details
 
-Dashboard: Öncelikli ve önemsiz ticket ayrımı
+Dashboard: Priority and non-priority ticket separation
 
-AdminPanel: SLA seviyesi ve müşteri yönetimi (isteğe bağlı)
+AdminPanel: SLA level and customer management (optional)
 
-🧪 Örnek Ticket JSON
+🧪 Sample Ticket JSON
 json
 Copy
 Edit
 {
 "customer_name": "XYZ Ltd.",
 "sla_level": "Gold",
-"issue_description": "Firewall kullanıcıları VPN bağlantısı kuramıyor.",
+"issue_description": "Firewall users cannot establish VPN connection.",
 "ticket_source": "email",
 "issue_type": "network"
 }
-🗃️ Dosya Yapısı Önerisi
+🗃️ Suggested File Structure
 bash
 Copy
 Edit

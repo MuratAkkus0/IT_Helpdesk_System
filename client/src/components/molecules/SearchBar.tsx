@@ -5,7 +5,7 @@ import type { SearchBarProps } from "../../types";
 const SearchBar = ({
   value,
   onChange,
-  placeholder = "Bilet ara...",
+  placeholder = "Search tickets...",
 }: SearchBarProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);

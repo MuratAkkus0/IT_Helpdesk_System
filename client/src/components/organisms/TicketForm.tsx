@@ -43,14 +43,25 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
   const analyzeWithAI = async (description: string): Promise<number> => {
     try {
       const result = await aiAPI.analyze(description);
-      return result.urgency;
+      return result;
     } catch (error) {
       console.error("AI analysis failed:", error);
       // Mock AI analysis for demo
-      const lowPriorityKeywords = ["bilgi", "soru", "nasıl", "öğren"];
-      const mediumPriorityKeywords = ["yavaş", "güncelle", "değiştir"];
-      const highPriorityKeywords = ["hata", "problem", "çalışmıyor", "erişim"];
-      const criticalKeywords = ["sunucu", "sistem", "çöktü", "acil", "down"];
+      const lowPriorityKeywords = ["info", "question", "how", "learn"];
+      const mediumPriorityKeywords = ["slow", "update", "change"];
+      const highPriorityKeywords = [
+        "error",
+        "problem",
+        "not working",
+        "access",
+      ];
+      const criticalKeywords = [
+        "server",
+        "system",
+        "crashed",
+        "urgent",
+        "down",
+      ];
 
       const desc = description.toLowerCase();
 
@@ -90,7 +101,7 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
         ...formData,
         title: formData.customer_name
           ? `${formData.customer_name} - ${formData.category}`
-          : "Yeni Ticket",
+          : "New Ticket",
         description: formData.issue_description || "",
         ai_priority: priority,
         priority: priority as 1 | 2 | 3 | 4 | 5,
@@ -157,12 +168,12 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
 
   const getPriorityInfo = (priority: number) => {
     const priorityMap = {
-      5: { label: "Kritik", variant: "danger" as const, icon: "🔥" },
-      4: { label: "Yüksek", variant: "warning" as const, icon: "⚠️" },
-      3: { label: "Orta", variant: "info" as const, icon: "⚡" },
-      2: { label: "Düşük", variant: "primary" as const, icon: "📋" },
-      1: { label: "Çok Düşük", variant: "success" as const, icon: "✅" },
-      default: { label: "Belirsiz", variant: "secondary" as const, icon: "❓" },
+      5: { label: "Critical", variant: "danger" as const, icon: "🔥" },
+      4: { label: "High", variant: "warning" as const, icon: "⚠️" },
+      3: { label: "Medium", variant: "info" as const, icon: "⚡" },
+      2: { label: "Low", variant: "primary" as const, icon: "📋" },
+      1: { label: "Very Low", variant: "success" as const, icon: "✅" },
+      default: { label: "Unknown", variant: "secondary" as const, icon: "❓" },
     };
     return (
       priorityMap[priority as keyof typeof priorityMap] || priorityMap.default
@@ -171,35 +182,37 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
 
   const getStepMessage = () => {
     if (currentStep === "analyzing") {
-      return "AI ile öncelik analizi yapılıyor...";
+      return "AI priority analysis in progress...";
     } else if (currentStep === "creating") {
-      return "Ticket oluşturuluyor...";
+      return "Creating ticket...";
+    } else if (currentStep === "success") {
+      return "Creating ticket...";
     }
-    return "Ticket oluşturuluyor...";
+    return "Creating ticket...";
   };
 
   const priorityInfo = getPriorityInfo(aiPriority || 0);
 
   const issueTypeOptions = [
-    { value: "network", label: "🌐 Ağ Sorunları" },
-    { value: "hardware", label: "🖥️ Donanım" },
-    { value: "software", label: "💻 Yazılım" },
-    { value: "access", label: "👤 Hesap/Yetki" },
-    { value: "email", label: "📧 E-posta" },
-    { value: "other", label: "📋 Diğer" },
+    { value: "network", label: "🌐 Network Issues" },
+    { value: "hardware", label: "🖥️ Hardware" },
+    { value: "software", label: "💻 Software" },
+    { value: "access", label: "👤 Account/Access" },
+    { value: "email", label: "📧 Email" },
+    { value: "other", label: "📋 Other" },
   ];
 
   const slaOptions = [
-    { value: "None", label: "Yok" },
+    { value: "None", label: "None" },
     { value: "Bronze", label: "Bronze" },
     { value: "Silver", label: "Silver" },
     { value: "Gold", label: "Gold" },
   ];
 
   const sourceOptions = [
-    { value: "email", label: "📧 E-posta" },
-    { value: "phone", label: "📞 Telefon" },
-    { value: "manual", label: "📝 Manuel" },
+    { value: "email", label: "📧 Email" },
+    { value: "phone", label: "📞 Phone" },
+    { value: "manual", label: "📝 Manual" },
   ];
 
   return (
@@ -207,16 +220,16 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl font-bold text-white mb-2">
-            Yeni Ticket Oluştur
+            Create New Ticket
           </h2>
           <p className="text-gray-400">
-            AI destekli öncelik belirleme ile yeni destek talebi oluşturun
+            Create a new support ticket with AI-powered priority determination
           </p>
         </div>
         {showSuccess && (
           <Badge variant="success">
             <FiCheckCircle className="mr-2" />
-            Ticket başarıyla oluşturuldu!
+            Ticket created successfully!
           </Badge>
         )}
       </div>
@@ -237,7 +250,7 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
               <span className="text-2xl mr-3">{priorityInfo.icon}</span>
               <div>
                 <span className="text-white font-medium">
-                  AI Öncelik Analizi:
+                  AI Priority Analysis:
                 </span>
                 <Badge variant={priorityInfo.variant} className="ml-2">
                   {priorityInfo.label}
@@ -253,14 +266,14 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
               <FiUser className="inline mr-2" />
-              Müşteri Adı
+              Customer Name
             </label>
             <Input
               type="text"
               name="customer_name"
               value={formData.customer_name}
               onChange={handleInputChange}
-              placeholder="Müşteri adını girin"
+              placeholder="Enter customer name"
               required
               className="bg-gray-700 border-gray-600 text-white"
             />
@@ -268,7 +281,7 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              SLA Seviyesi
+              SLA Level
             </label>
             <Select
               name="sla_level"
@@ -283,7 +296,7 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Sorun Kategorisi
+              Issue Category
             </label>
             <Select
               name="category"
@@ -296,7 +309,7 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
 
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Ticket Kaynağı
+              Ticket Source
             </label>
             <Select
               name="ticket_source"
@@ -311,13 +324,13 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
             <FiFileText className="inline mr-2" />
-            Sorun Açıklaması
+            Issue Description
           </label>
           <textarea
             name="issue_description"
             value={formData.issue_description}
             onChange={handleInputChange}
-            placeholder="Sorunun detaylı açıklamasını girin..."
+            placeholder="Enter detailed description of the issue..."
             required
             rows={4}
             className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -331,7 +344,7 @@ const TicketForm = ({ onTicketCreated }: TicketFormProps) => {
             disabled={loading}
             loading={loading}
           >
-            Ticket Oluştur
+            Create New Ticket
           </Button>
         </div>
       </form>

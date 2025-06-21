@@ -55,23 +55,23 @@ const TicketDetailModal = ({
   const getPriorityText = (priority: number) => {
     switch (priority) {
       case 5:
-        return "Kritik";
+        return "Critical";
       case 4:
-        return "Yüksek";
+        return "High";
       case 3:
-        return "Orta";
+        return "Medium";
       case 2:
-        return "Düşük";
+        return "Low";
       case 1:
-        return "Çok Düşük";
+        return "Very Low";
       default:
-        return "Belirsiz";
+        return "Unknown";
     }
   };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleString("tr-TR");
+    return date.toLocaleString("en-US");
   };
 
   return (
@@ -95,7 +95,7 @@ const TicketDetailModal = ({
               <div className="w-full">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    Ticket Detayları #{ticket._id}
+                    Ticket Details #{ticket._id}
                   </h3>
                   <button
                     onClick={onClose}
@@ -110,7 +110,7 @@ const TicketDetailModal = ({
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
                         <FiUser className="inline mr-1" />
-                        Müşteri
+                        Customer
                       </label>
                       <p className="mt-1 text-sm text-gray-900">
                         {ticket.customer_name}
@@ -120,7 +120,7 @@ const TicketDetailModal = ({
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
                         <FiCalendar className="inline mr-1" />
-                        Oluşturulma Tarihi
+                        Created At
                       </label>
                       <p className="mt-1 text-sm text-gray-900">
                         {formatDate(ticket.created_at)}
@@ -131,7 +131,7 @@ const TicketDetailModal = ({
                   <div>
                     <label className="block text-sm font-medium text-gray-700">
                       <FiMessageSquare className="inline mr-1" />
-                      Açıklama
+                      Description
                     </label>
                     <p className="mt-1 text-sm text-gray-900 p-3 bg-gray-50 rounded-md">
                       {ticket.issue_description}
@@ -141,7 +141,7 @@ const TicketDetailModal = ({
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Durum
+                        Status
                       </label>
                       <Select
                         value={status}
@@ -156,18 +156,18 @@ const TicketDetailModal = ({
                           )
                         }
                         options={[
-                          { value: "open", label: "Açık" },
-                          { value: "in_progress", label: "Devam Ediyor" },
-                          { value: "pending", label: "Beklemede" },
-                          { value: "resolved", label: "Çözüldü" },
-                          { value: "closed", label: "Kapalı" },
+                          { value: "open", label: "Open" },
+                          { value: "in_progress", label: "In Progress" },
+                          { value: "pending", label: "Pending" },
+                          { value: "resolved", label: "Resolved" },
+                          { value: "closed", label: "Closed" },
                         ]}
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Öncelik
+                        Priority
                       </label>
                       <span
                         className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPriorityColor(
@@ -180,7 +180,7 @@ const TicketDetailModal = ({
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Atanan Seviye
+                        Assigned Level
                       </label>
                       <Select
                         value={assignedLevel}
@@ -197,7 +197,7 @@ const TicketDetailModal = ({
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
-                        SLA Seviyesi
+                        SLA Level
                       </label>
                       <p className="mt-1 text-sm text-gray-900">
                         {ticket.sla_level}
@@ -206,7 +206,7 @@ const TicketDetailModal = ({
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700">
-                        Kaynak
+                        Source
                       </label>
                       <p className="mt-1 text-sm text-gray-900">
                         {ticket.ticket_source}
@@ -226,7 +226,7 @@ const TicketDetailModal = ({
               disabled={loading}
               className="w-full sm:w-auto sm:ml-3"
             >
-              {loading ? "Güncelleniyor..." : "Güncelle"}
+              {loading ? "Updating..." : "Update"}
             </Button>
             <Button
               type="button"
@@ -234,7 +234,7 @@ const TicketDetailModal = ({
               onClick={onClose}
               className="mt-3 w-full sm:mt-0 sm:w-auto"
             >
-              İptal
+              Cancel
             </Button>
           </div>
         </div>

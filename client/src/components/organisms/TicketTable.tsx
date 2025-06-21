@@ -10,10 +10,10 @@ const TicketTable = ({
 }: TicketTableProps) => {
   const getStatusText = (status: string) => {
     const statusMap = {
-      open: "Açık",
-      "in-progress": "Devam Ediyor",
-      pending: "Beklemede",
-      resolved: "Çözüldü",
+      open: "Open",
+      "in-progress": "In Progress",
+      pending: "Pending",
+      resolved: "Resolved",
     };
     return statusMap[status as keyof typeof statusMap] || status;
   };
@@ -48,34 +48,34 @@ const TicketTable = ({
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Başlık
+              Title
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Durum
+              Status
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Öncelik
+              Priority
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Atanan
+              Assigned
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Tarih
+              Date
             </th>
             <th scope="col" className="relative px-6 py-3">
-              <span className="sr-only">İşlemler</span>
+              <span className="sr-only">Actions</span>
             </th>
           </tr>
         </thead>
@@ -86,7 +86,7 @@ const TicketTable = ({
                 #{ticket._id}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {ticket.customer_name || ticket.title || "Başlıksız"}
+                {ticket.customer_name || ticket.title || "Untitled"}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <Badge
@@ -102,12 +102,12 @@ const TicketTable = ({
                 />
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {ticket.assignedTo || ticket.assigned_level || "Atanmamış"}
+                {ticket.assignedTo || ticket.assigned_level || "Unassigned"}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {new Date(
                   ticket.createdAt || ticket.created_at
-                ).toLocaleDateString("tr-TR")}
+                ).toLocaleDateString("en-US")}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <div className="flex items-center space-x-2">
@@ -137,9 +137,9 @@ const TicketTable = ({
       {tickets.length === 0 && (
         <div className="text-center py-12">
           <div className="text-gray-500">
-            <p className="text-lg font-medium">Henüz ticket bulunmuyor</p>
+            <p className="text-lg font-medium">No tickets found yet</p>
             <p className="text-sm">
-              Yeni ticket oluşturmak için yukarıdaki formu kullanın.
+              Use the form above to create a new ticket.
             </p>
           </div>
         </div>

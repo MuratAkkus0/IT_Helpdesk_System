@@ -62,9 +62,11 @@ const Dashboard: React.FC = () => {
     return (
       <div className="flex flex-col justify-center items-center h-96 bg-gray-800 rounded-xl border border-gray-700">
         <FiAlertCircle className="w-12 h-12 text-red-400 mb-4" />
-        <p className="text-gray-400 text-lg mb-4">İstatistikler yüklenemedi</p>
+        <p className="text-gray-400 text-lg mb-4">
+          Statistics could not be loaded
+        </p>
         <Button variant="primary" onClick={fetchStats}>
-          Tekrar Dene
+          Try Again
         </Button>
       </div>
     );
@@ -74,32 +76,32 @@ const Dashboard: React.FC = () => {
 
   const statCards: StatCard[] = [
     {
-      title: "Toplam Ticket",
+      title: "Total Tickets",
       value: overview.total,
       icon: FiBarChart2,
       variant: "primary",
-      description: "Tüm destek talepleri",
+      description: "All support tickets",
     },
     {
-      title: "Açık",
+      title: "Open",
       value: overview.open,
       icon: FiClock,
       variant: "warning",
-      description: "Bekleyen talepler",
+      description: "Pending requests",
     },
     {
-      title: "İşlemde",
+      title: "In Progress",
       value: overview.inProgress,
       icon: FiActivity,
       variant: "info",
-      description: "Çözüm aşamasında",
+      description: "In resolution phase",
     },
     {
-      title: "Çözüldü",
+      title: "Resolved",
       value: overview.resolved,
       icon: FiCheckCircle,
       variant: "success",
-      description: "Tamamlanan talepler",
+      description: "Completed requests",
     },
   ];
 
@@ -118,13 +120,13 @@ const Dashboard: React.FC = () => {
       <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 rounded-xl p-6 text-white border border-gray-700">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold mb-2">Hoş Geldiniz! 👋</h1>
+            <h1 className="text-2xl font-bold mb-2">Welcome! 👋</h1>
             <p className="text-blue-100 mb-2">
-              IT Helpdesk Dashboard - Sistem Durumu Özeti
+              IT Helpdesk Dashboard - System Status Overview
             </p>
             <p className="text-blue-200">
-              Bugün {new Date().toLocaleDateString("tr-TR")} tarihinde
-              sisteminiz aktif.
+              Today is {new Date().toLocaleDateString("en-US")} and your system
+              is active.
             </p>
           </div>
           <div className="hidden md:flex items-center">
@@ -190,7 +192,9 @@ const Dashboard: React.FC = () => {
         {/* Progress Card */}
         <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-white">Çözüm Oranı</h3>
+            <h3 className="text-lg font-semibold text-white">
+              Resolution Rate
+            </h3>
             <Badge variant="success" size="lg">
               {resolvedPercentage}%
             </Badge>
@@ -202,15 +206,15 @@ const Dashboard: React.FC = () => {
             ></div>
           </div>
           <p className="text-gray-400 text-sm">
-            Toplam {overview.total} ticket'tan {overview.resolved} tanesi
-            başarıyla çözüldü.
+            Total {overview.total} tickets, {overview.resolved} of them
+            successfully resolved.
           </p>
         </div>
 
         {/* Quick Actions */}
         <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
           <h3 className="text-lg font-semibold text-white mb-4">
-            Hızlı İşlemler
+            Quick Actions
           </h3>
           <div className="space-y-3">
             <Button
@@ -220,9 +224,9 @@ const Dashboard: React.FC = () => {
             >
               <FiPlus className="mr-3 text-blue-400" />
               <div className="text-left">
-                <p className="text-white font-medium">Yeni Ticket Oluştur</p>
+                <p className="text-white font-medium">Create New Ticket</p>
                 <p className="text-gray-400 text-sm">
-                  Hızlı destek talebi açın
+                  Create quick support ticket
                 </p>
               </div>
             </Button>
@@ -234,8 +238,8 @@ const Dashboard: React.FC = () => {
             >
               <FiActivity className="mr-3 text-green-400" />
               <div className="text-left">
-                <p className="text-white font-medium">Ticket Listesi</p>
-                <p className="text-gray-400 text-sm">Tüm talepleri görüntüle</p>
+                <p className="text-white font-medium">Ticket List</p>
+                <p className="text-gray-400 text-sm">View all tickets</p>
               </div>
             </Button>
 
@@ -246,8 +250,8 @@ const Dashboard: React.FC = () => {
             >
               <FiTrendingUp className="mr-3 text-purple-400" />
               <div className="text-left">
-                <p className="text-white font-medium">İstatistikleri Yenile</p>
-                <p className="text-gray-400 text-sm">Güncel verileri getir</p>
+                <p className="text-white font-medium">Refresh Statistics</p>
+                <p className="text-gray-400 text-sm">Get current data</p>
               </div>
             </Button>
           </div>
@@ -258,19 +262,19 @@ const Dashboard: React.FC = () => {
       {stats.priorityDistribution && (
         <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
           <h3 className="text-lg font-semibold text-white mb-4">
-            Öncelik Dağılımı
+            Priority Distribution
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             {stats.priorityDistribution.map((item, index) => {
               const priorityLabels: PriorityLabels = {
-                1: { label: "Çok Düşük", variant: "success" },
-                2: { label: "Düşük", variant: "primary" },
-                3: { label: "Orta", variant: "info" },
-                4: { label: "Yüksek", variant: "warning" },
-                5: { label: "Kritik", variant: "danger" },
+                1: { label: "Very Low", variant: "success" },
+                2: { label: "Low", variant: "primary" },
+                3: { label: "Medium", variant: "info" },
+                4: { label: "High", variant: "warning" },
+                5: { label: "Critical", variant: "danger" },
               };
               const priorityInfo = priorityLabels[item.priority] || {
-                label: "Bilinmeyen",
+                label: "Unknown",
                 variant: "secondary",
               };
 
