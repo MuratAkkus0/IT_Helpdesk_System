@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import path from "path";
 import ticketRoutes from "./routes/tickets.js";
 import aiRoutes from "./routes/ai.js";
+import workflowRoutes from "./routes/workflow.js";
 
 dotenv.config();
 
@@ -54,6 +55,7 @@ connectDB();
 // Routes
 app.use("/api/tickets", ticketRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/workflow", workflowRoutes);
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
