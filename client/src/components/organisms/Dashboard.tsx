@@ -30,16 +30,32 @@ const Dashboard: React.FC = () => {
           open: 23,
           inProgress: 15,
           resolved: 47,
+          closed: 10,
           l1: 12,
           l2: 8,
+          complexTickets: 15,
+          passwordResets: 8,
         },
         priorityDistribution: [
-          { priority: 1, count: 25 },
-          { priority: 2, count: 20 },
-          { priority: 3, count: 18 },
-          { priority: 4, count: 12 },
-          { priority: 5, count: 10 },
+          { _id: 1, count: 25 },
+          { _id: 2, count: 20 },
+          { _id: 3, count: 18 },
+          { _id: 4, count: 12 },
+          { _id: 5, count: 10 },
         ],
+        processStageDistribution: [
+          { _id: "ticket_created", count: 5 },
+          { _id: "sla_prioritized", count: 8 },
+          { _id: "ai_categorized", count: 12 },
+          { _id: "in_support_queue", count: 15 },
+          { _id: "being_processed", count: 20 },
+          { _id: "solution_provided", count: 15 },
+          { _id: "completed", count: 10 },
+        ],
+        customerSatisfaction: {
+          avgRating: 4.2,
+          totalFeedback: 45,
+        },
       });
     } finally {
       setLoading(false);
@@ -77,28 +93,28 @@ const Dashboard: React.FC = () => {
   const statCards: StatCard[] = [
     {
       title: "Total Tickets",
-      value: overview.total,
+      value: overview.total || 0,
       icon: FiBarChart2,
       variant: "primary",
       description: "All support tickets",
     },
     {
       title: "Open",
-      value: overview.open,
+      value: overview.open || 0,
       icon: FiClock,
       variant: "warning",
       description: "Pending requests",
     },
     {
       title: "In Progress",
-      value: overview.inProgress,
+      value: overview.inProgress || 0,
       icon: FiActivity,
       variant: "info",
       description: "In resolution phase",
     },
     {
       title: "Resolved",
-      value: overview.resolved,
+      value: overview.resolved || 0,
       icon: FiCheckCircle,
       variant: "success",
       description: "Completed requests",
@@ -106,8 +122,8 @@ const Dashboard: React.FC = () => {
   ];
 
   const resolvedPercentage: number =
-    overview.total > 0
-      ? Math.round((overview.resolved / overview.total) * 100)
+    (overview.total || 0) > 0
+      ? Math.round(((overview.resolved || 0) / (overview.total || 1)) * 100)
       : 0;
 
   const handleNavigate = (path: string): void => {
@@ -122,7 +138,7 @@ const Dashboard: React.FC = () => {
           <div>
             <h1 className="text-2xl font-bold mb-2">Welcome! 👋</h1>
             <p className="text-blue-100 mb-2">
-              IT Helpdesk Dashboard - System Status Overview
+              IT Helpdesk Dashboard - EPK Workflow System
             </p>
             <p className="text-blue-200">
               Today is {new Date().toLocaleDateString("en-US")} and your system
@@ -187,6 +203,60 @@ const Dashboard: React.FC = () => {
         })}
       </div>
 
+      {/* EPK Workflow Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white">
+              Complex Tickets
+            </h3>
+            <Badge variant="warning" size="lg">
+              {overview.complexTickets || 0}
+            </Badge>
+          </div>
+          <p className="text-gray-400 text-sm">L2 Support Required</p>
+        </div>
+
+        <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white">
+              Password Resets
+            </h3>
+            <Badge variant="info" size="lg">
+              {overview.passwordResets || 0}
+            </Badge>
+          </div>
+          <p className="text-gray-400 text-sm">Automated Requests</p>
+        </div>
+
+        <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white">
+              Customer Rating
+            </h3>
+            <Badge variant="success" size="lg">
+              {stats.customerSatisfaction.avgRating
+                ? stats.customerSatisfaction.avgRating.toFixed(1)
+                : "0.0"}
+              /5
+            </Badge>
+          </div>
+          <p className="text-gray-400 text-sm">
+            {stats.customerSatisfaction.totalFeedback || 0} Reviews
+          </p>
+        </div>
+
+        <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white">Closed</h3>
+            <Badge variant="success" size="lg">
+              {overview.closed || 0}
+            </Badge>
+          </div>
+          <p className="text-gray-400 text-sm">Completed with Feedback</p>
+        </div>
+      </div>
+
       {/* Progress and Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Progress Card */}
@@ -201,102 +271,101 @@ const Dashboard: React.FC = () => {
           </div>
           <div className="w-full bg-gray-700 rounded-full h-3 mb-4">
             <div
-              className="bg-gradient-to-r from-green-500 to-green-400 h-3 rounded-full transition-all duration-300"
+              className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all duration-500"
               style={{ width: `${resolvedPercentage}%` }}
             ></div>
           </div>
           <p className="text-gray-400 text-sm">
-            Total {overview.total} tickets, {overview.resolved} of them
-            successfully resolved.
+            {overview.resolved || 0} out of {overview.total || 0} tickets
+            resolved
           </p>
         </div>
 
-        {/* Quick Actions */}
+        {/* Priority Distribution */}
         <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-          <h3 className="text-lg font-semibold text-white mb-4">
-            Quick Actions
-          </h3>
-          <div className="space-y-3">
-            <Button
-              variant="secondary"
-              className="w-full justify-start"
-              onClick={() => handleNavigate("/create-ticket")}
-            >
-              <FiPlus className="mr-3 text-blue-400" />
-              <div className="text-left">
-                <p className="text-white font-medium">Create New Ticket</p>
-                <p className="text-gray-400 text-sm">
-                  Create quick support ticket
-                </p>
-              </div>
-            </Button>
-
-            <Button
-              variant="secondary"
-              className="w-full justify-start"
-              onClick={() => handleNavigate("/tickets")}
-            >
-              <FiActivity className="mr-3 text-green-400" />
-              <div className="text-left">
-                <p className="text-white font-medium">Ticket List</p>
-                <p className="text-gray-400 text-sm">View all tickets</p>
-              </div>
-            </Button>
-
-            <Button
-              variant="secondary"
-              className="w-full justify-start"
-              onClick={fetchStats}
-            >
-              <FiTrendingUp className="mr-3 text-purple-400" />
-              <div className="text-left">
-                <p className="text-white font-medium">Refresh Statistics</p>
-                <p className="text-gray-400 text-sm">Get current data</p>
-              </div>
-            </Button>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white">
+              Priority Distribution
+            </h3>
+            <FiTrendingUp className="w-6 h-6 text-blue-400" />
           </div>
-        </div>
-      </div>
-
-      {/* Priority Distribution */}
-      {stats.priorityDistribution && (
-        <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-          <h3 className="text-lg font-semibold text-white mb-4">
-            Priority Distribution
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {stats.priorityDistribution.map((item, index) => {
+          <div className="space-y-3">
+            {stats.priorityDistribution.map((item) => {
               const priorityLabels: PriorityLabels = {
-                1: { label: "Very Low", variant: "success" },
-                2: { label: "Low", variant: "primary" },
-                3: { label: "Medium", variant: "info" },
-                4: { label: "High", variant: "warning" },
+                1: { label: "Low", variant: "info" },
+                2: { label: "Normal", variant: "primary" },
+                3: { label: "Medium", variant: "warning" },
+                4: { label: "High", variant: "danger" },
                 5: { label: "Critical", variant: "danger" },
               };
-              const priorityInfo = priorityLabels[item.priority] || {
+
+              const priorityInfo = priorityLabels[item._id] || {
                 label: "Unknown",
-                variant: "secondary",
+                variant: "secondary" as const,
               };
+
+              const percentage = Math.round(
+                (item.count / overview.total) * 100
+              );
 
               return (
                 <div
-                  key={`priority-${item.priority}-${index}`}
-                  className="text-center"
+                  key={item._id}
+                  className="flex items-center justify-between"
                 >
-                  <Badge
-                    variant={priorityInfo.variant}
-                    size="lg"
-                    className="mb-2"
-                  >
-                    {item.count}
-                  </Badge>
-                  <p className="text-gray-300 text-sm">{priorityInfo.label}</p>
+                  <div className="flex items-center space-x-3">
+                    <Badge variant={priorityInfo.variant} size="sm">
+                      P{item._id}
+                    </Badge>
+                    <span className="text-white text-sm">
+                      {priorityInfo.label}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-gray-400 text-sm">{item.count}</span>
+                    <span className="text-gray-500 text-xs">
+                      ({percentage}%)
+                    </span>
+                  </div>
                 </div>
               );
             })}
           </div>
         </div>
-      )}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-lg font-semibold text-white">Quick Actions</h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Button
+            variant="primary"
+            onClick={() => handleNavigate("/create-ticket")}
+            icon={<FiPlus />}
+            className="w-full"
+          >
+            Create New Ticket
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => handleNavigate("/tickets")}
+            icon={<FiBarChart2 />}
+            className="w-full"
+          >
+            View All Tickets
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => handleNavigate("/workflow")}
+            icon={<FiActivity />}
+            className="w-full"
+          >
+            EPK Workflow
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

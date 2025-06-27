@@ -4,6 +4,7 @@ import DashboardPage from "./pages/DashboardPage";
 import TicketsPage from "./pages/TicketsPage";
 import TicketDetailPage from "./pages/TicketDetailPage";
 import CreateTicketPage from "./pages/CreateTicketPage";
+import WorkflowPage from "./pages/WorkflowPage";
 import SettingsPage from "./pages/SettingsPage";
 import "./App.css";
 
@@ -16,6 +17,7 @@ function App() {
           <Route path="tickets" element={<TicketsPage />} />
           <Route path="tickets/:id" element={<TicketDetailPage />} />
           <Route path="create-ticket" element={<CreateTicketPage />} />
+          <Route path="workflow" element={<WorkflowPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>
