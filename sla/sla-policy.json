@@ -1,0 +1,309 @@
+{
+  "sla_policy": {
+    "version": "1.0",
+    "effective_date": "2025-01-01",
+    "description": "IT Helpdesk Service Level Agreement - Türkçe/English",
+
+    "service_hours": {
+      "standard": {
+        "days": "Pazartesi - Cuma",
+        "hours": "08:00 - 18:00 (GMT+3)",
+        "timezone": "Europe/Istanbul"
+      },
+      "extended": {
+        "days": "24/7",
+        "description": "Kritik sistemler için"
+      }
+    },
+
+    "customer_tiers": {
+      "Gold": {
+        "tier_name": "Gold Premium",
+        "description": "VIP müşteriler - Kritik iş uygulamaları",
+        "priority_multiplier": 4,
+        "features": [
+          "24/7 destek",
+          "Öncelikli işlem",
+          "Dedike teknik uzman",
+          "Telefon desteği"
+        ],
+        "response_times": {
+          "critical": "15 dakika",
+          "high": "30 dakika",
+          "medium": "1 saat",
+          "low": "2 saat"
+        },
+        "resolution_times": {
+          "critical": "2 saat",
+          "high": "4 saat",
+          "medium": "8 saat",
+          "low": "24 saat"
+        }
+      },
+
+      "Silver": {
+        "tier_name": "Silver Standard",
+        "description": "Standart iş müşterileri",
+        "priority_multiplier": 2,
+        "features": [
+          "İş saatleri desteği",
+          "Email ve telefon desteği",
+          "Orta öncelikli işlem"
+        ],
+        "response_times": {
+          "critical": "30 dakika",
+          "high": "1 saat",
+          "medium": "2 saat",
+          "low": "4 saat"
+        },
+        "resolution_times": {
+          "critical": "4 saat",
+          "high": "8 saat",
+          "medium": "24 saat",
+          "low": "48 saat"
+        }
+      },
+
+      "Bronze": {
+        "tier_name": "Bronze Basic",
+        "description": "Temel müşteriler",
+        "priority_multiplier": 1,
+        "features": [
+          "İş saatleri desteği",
+          "Email desteği",
+          "Standart işlem sırası"
+        ],
+        "response_times": {
+          "critical": "1 saat",
+          "high": "2 saat",
+          "medium": "4 saat",
+          "low": "8 saat"
+        },
+        "resolution_times": {
+          "critical": "8 saat",
+          "high": "24 saat",
+          "medium": "48 saat",
+          "low": "72 saat"
+        }
+      },
+
+      "None": {
+        "tier_name": "Free/Public",
+        "description": "SLA garantisi olmayan ücretsiz destek",
+        "priority_multiplier": 0,
+        "features": ["En düşük öncelik", "Email desteği", "En son işlem"],
+        "response_times": {
+          "critical": "4 saat",
+          "high": "8 saat",
+          "medium": "24 saat",
+          "low": "48 saat"
+        },
+        "resolution_times": {
+          "critical": "24 saat",
+          "high": "48 saat",
+          "medium": "72 saat",
+          "low": "1 hafta"
+        }
+      }
+    },
+
+    "priority_levels": {
+      "5": {
+        "name": "Kritik",
+        "description": "Sistem çökmesi, güvenlik ihlali, veri kaybı",
+        "examples": [
+          "Sunucu tamamen çöktü",
+          "Güvenlik ihlali tespit edildi",
+          "Kritik veritabanı erişilemiyor",
+          "Tüm kullanıcılar sistem dışı",
+          "Üretim ortamı durdu"
+        ],
+        "escalation_required": true,
+        "requires_immediate_attention": true,
+        "notification_channels": ["phone", "sms", "email"]
+      },
+
+      "4": {
+        "name": "Yüksek",
+        "description": "Önemli sistem sorunu, çok kullanıcı etkileniyor",
+        "examples": [
+          "VPN bağlantısı kesildi",
+          "Email sunucu yavaş",
+          "Kritik uygulama hata veriyor",
+          "Network performans sorunu",
+          "Çoklu kullanıcı erişim sorunu"
+        ],
+        "escalation_required": false,
+        "requires_immediate_attention": true,
+        "notification_channels": ["phone", "email"]
+      },
+
+      "3": {
+        "name": "Orta",
+        "description": "Orta düzey sorun, işi etkileyebilir",
+        "examples": [
+          "Yazıcı bağlantı sorunu",
+          "Uygulama yavaşlığı",
+          "Dosya paylaşım sorunu",
+          "Network aralıklı kesilme",
+          "Yazılım güncelleme gerekli"
+        ],
+        "escalation_required": false,
+        "requires_immediate_attention": false,
+        "notification_channels": ["email"]
+      },
+
+      "2": {
+        "name": "Düşük",
+        "description": "Küçük sorunlar, alternatif çözüm mevcut",
+        "examples": [
+          "Yazıcı kağıt sıkışması",
+          "Email ayar sorunu",
+          "Yazılım kurulum talebi",
+          "Hesap bilgi güncelleme",
+          "Küçük kullanıcı hatası"
+        ],
+        "escalation_required": false,
+        "requires_immediate_attention": false,
+        "notification_channels": ["email"]
+      },
+
+      "1": {
+        "name": "Çok Düşük",
+        "description": "Genel sorular, bilgi talepleri",
+        "examples": [
+          "Şifre değiştirme talebi",
+          "Yeni kullanıcı hesabı",
+          "Genel bilgi sorusu",
+          "Yazılım kullanım rehberi",
+          "Eğitim talebi"
+        ],
+        "escalation_required": false,
+        "requires_immediate_attention": false,
+        "notification_channels": ["email"]
+      }
+    },
+
+    "issue_categories": {
+      "network": {
+        "name": "Ağ ve Bağlantı",
+        "base_priority_boost": 1,
+        "requires_l2": true,
+        "typical_issues": [
+          "VPN sorunları",
+          "Wi-Fi bağlantı sorunu",
+          "Network yavaşlığı",
+          "Firewall sorunları"
+        ]
+      },
+
+      "hardware": {
+        "name": "Donanım",
+        "base_priority_boost": 1,
+        "requires_l2": true,
+        "typical_issues": [
+          "Sunucu arızası",
+          "Bilgisayar açılmıyor",
+          "Yazıcı sorunları",
+          "Ekran problemi"
+        ]
+      },
+
+      "software": {
+        "name": "Yazılım",
+        "base_priority_boost": 0,
+        "requires_l2": false,
+        "typical_issues": [
+          "Uygulama hataları",
+          "Yazılım kurulumu",
+          "Güncelleme sorunları",
+          "Lisans problemleri"
+        ]
+      },
+
+      "access": {
+        "name": "Erişim ve Kimlik",
+        "base_priority_boost": 0,
+        "requires_l2": false,
+        "typical_issues": [
+          "Şifre sıfırlama",
+          "Hesap kilitleme",
+          "Erişim yetkisi",
+          "Login sorunları"
+        ]
+      },
+
+      "email": {
+        "name": "Email",
+        "base_priority_boost": 0,
+        "requires_l2": false,
+        "typical_issues": [
+          "Email gönderememe",
+          "Spam filtresi",
+          "Mailbox doluluk",
+          "Outlook ayarları"
+        ]
+      }
+    },
+
+    "automation_rules": {
+      "password_reset": {
+        "triggers": [
+          "şifre unuttu",
+          "password reset",
+          "şifre sıfırla",
+          "login yapamıyorum",
+          "giriş yapamıyorum"
+        ],
+        "auto_action": "send_password_reset_email",
+        "estimated_resolution": "5 dakika",
+        "requires_approval": false
+      },
+
+      "account_unlock": {
+        "triggers": ["hesap kilitli", "account locked", "kullanıcı kilitli"],
+        "auto_action": "unlock_account",
+        "estimated_resolution": "10 dakika",
+        "requires_approval": true
+      }
+    },
+
+    "escalation_matrix": {
+      "level_1_timeout": {
+        "gold": "2 saat",
+        "silver": "4 saat",
+        "bronze": "8 saat",
+        "none": "24 saat"
+      },
+
+      "auto_escalation_triggers": [
+        "priority >= 4",
+        "customer_tier == 'Gold' && response_time_exceeded",
+        "issue_category == 'network'",
+        "multiple_failed_attempts >= 3"
+      ]
+    },
+
+    "metrics_and_kpis": {
+      "first_response_time": {
+        "target": "SLA tier bazında",
+        "measurement": "İlk yanıt süresi"
+      },
+
+      "resolution_time": {
+        "target": "SLA tier bazında",
+        "measurement": "Çözüm süresi"
+      },
+
+      "customer_satisfaction": {
+        "target": ">= 4.0/5.0",
+        "measurement": "Müşteri memnuniyeti"
+      },
+
+      "first_call_resolution": {
+        "target": ">= 70%",
+        "measurement": "İlk aramada çözüm oranı"
+      }
+    }
+  }
+}
